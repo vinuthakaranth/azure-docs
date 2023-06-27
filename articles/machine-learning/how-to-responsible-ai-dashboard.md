@@ -26,6 +26,27 @@ Select the name of the dashboard to open it into a full view in your browser. To
 
 :::image type="content" source="./media/how-to-responsible-ai-dashboard/dashboard-full-view.png" alt-text="Screenshot of a Responsible AI dashboard with the 'Back to model details' button highlighted." lightbox = "./media/how-to-responsible-ai-dashboard/dashboard-full-view.png":::
 
+## Large data bubble/cluster creation algorithmic steps
+
+- If the number of points in the input dataset is less than
+      1000, then we return one cluster containing all the
+      points information in the cluster.
+- If the `x` and `y` axis are both numerical features, then we use
+      scikit-learn's k-means algorithm to cluster the points into `n`
+      clusters and return the information about the `n` clusters. The
+      number of clusters `n` is determined by dividing the number of
+      points in the input dataset by 1000.
+- If either of `x` and `y` axis are categorical features or discrete
+      in nature, then we form clusters around the discrete values. For
+      instance, if the there are `k` distinct discrete values, then we
+      form `k` clusters and return the relevant information.
+- If both `x` and `y` axis are categorical features or discrete
+      in nature which have `i` and `j` distinct discrete values
+      respectively, then we return `i` * `j` clusters. Each pair
+      within `i` * `j` clusters indicates a set of points which
+      have those respective values.
+
+
 ## Full functionality with integrated compute resource
 
 Some features of the Responsible AI dashboard require dynamic, on-the-fly, and real-time computation (for example, what-if analysis). Unless you connect a compute resource to the dashboard, you might find some functionality missing. When you connect to a compute resource, you enable full functionality of your Responsible AI dashboard for the following components:
@@ -241,6 +262,20 @@ With the data explorer component, you can analyze data statistics along the x-ax
 
 :::image type="content" source="./media/how-to-responsible-ai-dashboard/data-explorer-individual.png" alt-text="Screenshot of the dashboard, showing the data explorer with the 'Individual data points' option selected." lightbox= "./media/how-to-responsible-ai-dashboard/data-explorer-individual.png":::
 
+#### Large data scenaio
+##### Individual datapoints
+A bubble chart with clusters will be displayed. On clicking a bubble, a scatter plot with individual data points will be shown.
+
+:::image type="content" source="./media/how-to-responsible-ai-dashboard/largedata-dataanalysis-bubble.png" alt-text="Screenshot of the dashboard, showing the data explorer with the clusters for all data." lightbox= "./media/how-to-responsible-ai-dashboard/largedata-dataanalysis-bubble.png":::
+
+Bubble plot: View your datapoints in clusters and click on a cluster to view the datapoints in that cluster.
+
+:::image type="content" source="./media/how-to-responsible-ai-dashboard/largedata-dataanalysis-scatter.png" alt-text="Screenshot of the dashboard, showing the data explorer after bubble is clicked." lightbox= "./media/how-to-responsible-ai-dashboard/largedata-dataanalysis-bubble.png":::
+
+Individual data points plot: View your datapoints in a specific cluster. Hover on a datapoint to view details about the data point.
+1.	View bubble chart: click on this button to display the bubble plot and you can select another cluster and check your data points.
+
+
 ### Feature importances (model explanations)
 
 By using the model explanation component, you can see which features were most important in your model’s predictions. You can view what features affected your model’s prediction overall on the **Aggregate feature importance** pane or view feature importances for individual data points on the **Individual feature importance** pane.
@@ -289,6 +324,24 @@ The following image illustrates how features influence the predictions that are 
 - **Feature values (categorical features)**: Specifies which categorical feature values to show predictions for.
 - **Feature**: Specifies the feature to make predictions for.
 
+##### Large data scenario
+
+:::image type="content" source="./media/how-to-responsible-ai-dashboard/largedata-featureimp-bubble.png" alt-text="Screenshot of the dashboard, showing a bubble plot on the Individual feature importance pane." lightbox="./media/how-to-responsible-ai-dashboard/largedata-featureimp-bubble.png":::
+
+Bubble plot: View your datapoints in clusters and click on a cluster to view the datapoints in that cluster.
+
+:::image type="content" source="./media/how-to-responsible-ai-dashboard/largedata-featureimpscatter.png" alt-text="Screenshot of the dashboard, showing a scatter plot on the bubble selected" lightbox="./media/how-to-responsible-ai-dashboard/largedata-featureimpscatter.png":::
+
+Scatter plot: View your datapoints in a specific cluster. Click on a datapoint to view feature importance plot.
+
+:::image type="content" source="./media/how-to-responsible-ai-dashboard/largedata-featureimp-bar.png" alt-text="Screenshot of the dashboard, showing a bar plot on the data point selected." lightbox="./media/how-to-responsible-ai-dashboard/largedata-featureimp-bar.png":::
+
+Feature importance plot: A bar plot of the importance of each feature for the model's prediction on the selected data point.
+1.	Top k features: Allows you to specify the number of features to show importances for by using a slider.
+2.	View absolute values: Toggle on to sort the bar plot by the absolute values. This allows you to see the most impactful features regardless of their positive or negative direction.
+3.	Bar plot: Displays the importance of each feature in the dataset for the model prediction of the selected data points.
+
+
 ### Counterfactual what-if
 
 Counterfactual analysis provides a diverse set of *what-if* examples generated by changing the values of features minimally to produce the desired prediction class (classification) or range (regression).
@@ -315,6 +368,16 @@ Counterfactual analysis provides a diverse set of *what-if* examples generated b
 9. **Create your own counterfactual**: Allows you to perturb your own features to modify the counterfactual. Features that have been changed from the original feature value are denoted by the title being bolded (for example, Employer and Programming language). Select **See prediction delta** to view the difference in the new prediction value from the original data point.
 10. **What-if counterfactual name**: Allows you to name the counterfactual uniquely.
 11. **Save as new data point**: Saves the counterfactual you've created.
+
+#### Large data scenario
+
+:::image type="content" source="./media/how-to-responsible-ai-dashboard/largedata-counterfactual-bubble.png" alt-text="Screenshot of the dashboard, showing a bubble plot on the data." lightbox="./media/how-to-responsible-ai-dashboard/largedata-counterfactual-bubble.png":::
+
+Bubble plot: View your datapoints in clusters and click on a cluster to view the datapoints in that cluster.
+
+:::image type="content" source="./media/how-to-responsible-ai-dashboard/largedata-counterfactual-scatter.png" alt-text="Screenshot of the dashboard, showing a scatter plot on the bubble selected." lightbox="./media/how-to-responsible-ai-dashboard/largedata-counterfactual-scatter.png":::
+
+Scatter plot: View your datapoints in a cluster. Click on a datapoint to view ‘Top ranked features plot’.
 
 ### Causal analysis
 
@@ -346,6 +409,16 @@ To get a granular view of causal effects on an individual data point, switch to 
 4. **Set new treatment value**:
     * **(numerical)**: Shows a slider to change the value of the numerical feature as a real-world intervention.
     * **(categorical)**: Shows a dropdown list to select the value of the categorical feature.
+
+##### Large data scenario
+
+:::image type="content" source="./media/how-to-responsible-ai-dashboard/largedata-causal-bubble.png" alt-text="Screenshot of the dashboard, showing a bubble plot on the data." lightbox="./media/how-to-responsible-ai-dashboard/largedata-causal-bubble.png":::
+
+Bubble plot: View your datapoints in clusters and click on a cluster to view the datapoints in that cluster.
+
+:::image type="content" source="./media/how-to-responsible-ai-dashboard/largedata-causal-scatter.png" alt-text="Screenshot of the dashboard, showing a scatter plot on the bubble selected." lightbox="./media/how-to-responsible-ai-dashboard/largedata-causal-scatter.png":::
+
+Individual causal effects: View your datapoints in a cluster. Click on a datapoint to view local causal effects.
 
 #### Treatment policy
 

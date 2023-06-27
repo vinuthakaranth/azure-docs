@@ -165,7 +165,7 @@ The following people can use the Responsible AI dashboard, and its corresponding
 
 - The Responsible AI dashboard currently supports regression and classification (binary and multi-class) models trained on tabular structured data. 
 - The Responsible AI dashboard currently supports MLflow models that are registered in Azure Machine Learning with a sklearn (scikit-learn) flavor only. The scikit-learn models should implement `predict()/predict_proba()` methods, or the model should be wrapped within a class that implements `predict()/predict_proba()` methods. The models must be loadable in the component environment and must be pickleable.
-- The Responsible AI dashboard currently visualizes up to 5K of your data points on the dashboard UI. You should downsample your dataset to 5K or less before passing it to the dashboard.
+- The Responsible AI dashboard currently visualizes up to 5K of your data points on the dashboard UI in static view (with out compute connected). Once the compute is connected, dashboard with full data can be viewed.
 - The dataset inputs to the Responsible AI dashboard must be pandas DataFrames in Parquet format. NumPy and SciPy sparse data is currently not supported. 
 - The Responsible AI dashboard currently supports numeric or categorical features. For categorical features, the user has to explicitly specify the feature names.  
 - The Responsible AI dashboard currently doesn't support datasets with more than 10K columns.
